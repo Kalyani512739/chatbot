@@ -3,7 +3,7 @@ from google import genai
 
 app = Flask(__name__)
 
-client = genai.Client(api_key="AIzaSyCqre-U-IFC_nl8INHQw6IJzFG_ExJRFm0")
+client = genai.Client(api_key="")
 
 chat_history = []
 
