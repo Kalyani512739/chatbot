@@ -1,0 +1,8 @@
+flask
+google-genai
+langchain
+langchain-community
+chromadb
+pymupdf
+sentence-transformers
+python-dotenv
