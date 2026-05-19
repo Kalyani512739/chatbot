@@ -1,9 +1,14 @@
 def build_prompt(context, question):
 
     prompt = f"""
-You are a helpful AI assistant.
+You are an AI tutor.
 
-Answer only from the provided PDF context.
+If the context contains the answer, answer using it.
+
+If the context does not contain enough information,
+answer using your general knowledge.
+
+Explain in simple and clear words.
 
 Context:
 {context}

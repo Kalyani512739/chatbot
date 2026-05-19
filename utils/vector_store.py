@@ -1,29 +1,33 @@
-from langchain_community.vectorstores import Chroma
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
+token=os.getenv("HF_TOKEN")
+from langchain_chroma import Chroma
+from langchain_huggingface import HuggingFaceEmbeddings
+
+# Embedding Model
 embedding_model = HuggingFaceEmbeddings(
     model_name="sentence-transformers/all-MiniLM-L6-v2"
 )
 
+# DB path
+PERSIST_DIRECTORY = "./chroma_db"
 
 def create_vector_db(chunks):
-
-    vectordb = Chroma.from_texts(
-        texts=chunks,
-        embedding=embedding_model,
-        persist_directory="./chroma_db"
+    vectordb = Chroma(
+        persist_directory=PERSIST_DIRECTORY,
+        embedding_function=embedding_model
     )
 
-    vectordb.persist()
+    vectordb.add_texts(chunks)
 
     return vectordb
 
 
-
 def load_vector_db():
-
     vectordb = Chroma(
-        persist_directory="./chroma_db",
+        persist_directory=PERSIST_DIRECTORY,
         embedding_function=embedding_model
     )
 
