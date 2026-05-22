@@ -13,7 +13,7 @@ from utils.pdf_loader import extract_text_from_pdf
 from utils.text_splitter import split_text
 from utils.vector_store import (
     create_vector_db,
-    load_vector_db
+    search_chunks
 )
 from utils.prompt_template import build_prompt
 
@@ -247,33 +247,33 @@ def chat():
 
     try:
 
-        # Load vector DB
-        vectordb = load_vector_db()
+        # -----------------------------------
+        # Search Pinecone
+        # -----------------------------------
 
-        # Search with scores
-        results = vectordb.similarity_search_with_score(
-            user_message,
-            k=4
-        )
+        results = search_chunks(user_message)
 
         relevant_docs = []
 
-        for item in results:
-            doc = item[0]
-            score = item[1]
+        for match in results:
+
+            score = match["score"]
 
             print("Score:", score)
 
-            if score < 0.5:
-                relevant_docs.append(doc)
+            if score > 0.6:
 
-        # Use PDF if relevant content found
+                relevant_docs.append(
+                    match["metadata"]["text"]
+                )
+
+        # -----------------------------------
+        # Build Prompt
+        # -----------------------------------
+
         if relevant_docs:
 
-            context = "\n\n".join([
-                doc.page_content
-                for doc in relevant_docs
-            ])
+            context = "\n\n".join(relevant_docs)
 
             final_prompt = build_prompt(
                 context,
@@ -288,7 +288,10 @@ def chat():
 
             print("Using normal Gemini")
 
-        # Gemini response
+        # -----------------------------------
+        # Gemini Response
+        # -----------------------------------
+
         response = client.models.generate_content(
             model="gemini-2.5-flash-lite",
             contents=final_prompt

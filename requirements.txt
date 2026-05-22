@@ -1,8 +1,12 @@
 flask
+flask_sqlalchemy
+flask_bcrypt
 google-genai
+pinecone
+python-dotenv
+pymupdf
 langchain
 langchain-community
-chromadb
-pymupdf
-sentence-transformers
-python-dotenv
+langchain-text-splitters
+gunicorn
+numpy

@@ -3,18 +3,20 @@ def build_prompt(context, question):
     prompt = f"""
 You are an AI tutor.
 
-If the context contains the answer, answer using it.
+Use the provided context to answer the question.
 
 If the context does not contain enough information,
-answer using your general knowledge.
+say so clearly and then answer using general knowledge.
 
-Explain in simple and clear words.
+Keep answers simple, clear, and beginner-friendly.
 
 Context:
 {context}
 
 Question:
 {question}
+
+Answer:
 """
 
     return prompt

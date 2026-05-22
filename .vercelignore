@@ -1,0 +1,5 @@
+uploads
+instance
+.vscode
+__pycache__
+chroma_db
