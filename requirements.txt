@@ -10,3 +10,4 @@ langchain-community
 langchain-text-splitters
 gunicorn
 numpy
+psycopg2-binary
